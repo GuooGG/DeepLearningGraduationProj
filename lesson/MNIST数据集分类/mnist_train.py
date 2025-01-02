@@ -120,7 +120,9 @@ for epoch in range(3):
         y_one_hot = one_hot(y)
         loss = functional.mse_loss(out, y_one_hot)
         
-        
+        if batch_idx % 10 == 0:
+            print("now loss = {0}".format(loss.item()))
+            
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
@@ -145,7 +147,7 @@ for x,y in test_loader:
 
 total_num = len(test_loader.dataset)
 acc = total_correct / total_num
-print("模型正确率为{acc}")
+print("模型正确率为{0}%".format(acc*100))
 
 
 x,y = next(iter(test_loader))
