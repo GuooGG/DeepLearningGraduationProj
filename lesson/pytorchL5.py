@@ -2,6 +2,7 @@
 张量之间的运算 broadcasting
 '''
 import torch
+from torch.nn import functional as F
 
 a = torch.randn(8)
 print(a.unsqueeze(0).unsqueeze(0).expand(4, 32, 8).shape)
@@ -138,3 +139,10 @@ print(idx)
 label = torch.tensor([12, 15, 16 ,17, 18, 6, 7 ,8, 9, 10])
 result = torch.gather(label.expand(4, 10), dim = 1, index = idx.long())
 print(result)
+
+
+a = torch.rand(3, requires_grad = True)
+p = F.softmax(a, dim = 0)
+for i in range(len(p)):
+    print(torch.autograd.grad(p[i], [a], retain_graph = True))
+
