@@ -118,7 +118,7 @@ for epoch in range(3):
         x = x.view(x.size(0), 28*28)
         out = net(x)
         y_one_hot = one_hot(y)
-        loss = functional.mse_loss(out, y_one_hot)
+        loss = functional.cross_entropy(out, y_one_hot)
         
         if batch_idx % 10 == 0:
             print("now loss = {0}".format(loss.item()))
