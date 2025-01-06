@@ -10,6 +10,9 @@ from matplotlib import pyplot as plt
 BATCH_SZIE = 512
 LEARNING_RATE = 0.01
 EPOCHS = 10
+
+device0 = torch.device('cuda:0')
+
 '''
 实现对标签的ont-hot编码
 '''
@@ -222,21 +225,22 @@ def run3():
             super(MLP, self).__init__()      
             self.model = nn.Sequential(
                 nn.Linear(784, 200),
-                nn.ReLU(inplace = True),
+                nn.LeakyReLU(inplace = True),
                 nn.Linear(200, 200),
-                nn.ReLU(inplace = True),
+                nn.LeakyReLU(inplace = True),
                 nn.Linear(200, 10)
             )
         def forward(self, x):
             x = self.model(x)
             return x
     
-    net = MLP()
+    net = MLP().to(device0)
     optimizer = optimizer = optim.Adam(net.parameters(), lr = LEARNING_RATE)
-    criteon = nn.CrossEntropyLoss()
+    criteon = nn.CrossEntropyLoss().to(device0)
     for epoch in range(EPOCHS):
         for batch_idx, (data, target) in enumerate(train_loader):
             data = data.view(-1, 28*28)
+            data = data.to(device0)
             logits = net(data)
             loss = criteon(logits, target)
             optimizer.zero_grad()
