@@ -21,7 +21,9 @@ EPOCHS = 10
 cifar_trainset = datasets.CIFAR10('cifar_data', train = True,
                                 transform = transforms.Compose([
                                     transforms.Resize((32, 32)), # 将图片转为32 *32
-                                    transforms.ToTensor()        # 将数据转为张量
+                                    transforms.ToTensor(),        # 将数据转为张量
+                                    transforms.Normalize(mean = [0.485, 0.456, 0.406], # 对输入进行标准正态化
+                                                         std = [0.229, 0.224, 0.225])
                                 ]), download = True)
 cifar_trainset = DataLoader(cifar_trainset, 
                             batch_size = BATCH_SIZE, 
@@ -31,7 +33,9 @@ cifar_trainset = DataLoader(cifar_trainset,
 cifar_testset = datasets.CIFAR10('cifar_data', train = False,
                                 transform = transforms.Compose([
                                     transforms.Resize((32, 32)), # 将图片转为32 *32
-                                    transforms.ToTensor()        # 将数据转为张量
+                                    transforms.ToTensor(),        # 将数据转为张量
+                                    transforms.Normalize(mean = [0.485, 0.456, 0.406],
+                                    std = [0.229, 0.224, 0.225])
                                 ]), download = True)
 cifar_testset = DataLoader(cifar_testset, 
                             batch_size = BATCH_SIZE, 
@@ -101,7 +105,7 @@ def run():
             correct = torch.eq(pred, label).float().sum().item()
             total_correct += correct
             total_num += x.size(0)
-        print("第 {0} 轮训练结束,当前目标函数值为：{1:6f} ,模型正确率为：{2:2f}%".format(epoch + 1, loss.item(), (total_correct / total_num) * 100))
+        print("第 {0} 轮训练结束,当前目标函数值为：{1} ,模型正确率为：{2}%".format(epoch + 1, loss.item(), (total_correct / total_num) * 100))
 
 
 
