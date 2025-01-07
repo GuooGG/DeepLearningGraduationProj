@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 from torch import nn
 from torch import optim
 from torchvision import transforms
-from lenet5 import Lenet5
+from resnet import ResNet18
 
 '''
 常用常量
@@ -67,7 +67,7 @@ def run():
     '''
     实例化网络对象
     '''
-    model = Lenet5()
+    model = ResNet18()
 
     '''
     实例化交叉熵损失函数对象
@@ -94,6 +94,7 @@ def run():
             optimizer.zero_grad()
             loss.backward()
             optimizer.step()
+            print("loss:{0}".format(loss.item()))
         '''
         测试验证
         '''
